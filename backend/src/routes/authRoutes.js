@@ -81,9 +81,16 @@ router.post('/register', async (req, res) => {
 });
 
 
-// Login endpoint using Passport
 router.post('/login', passport.authenticate('local'), (req, res) => {
-    res.json({message: 'Logged in successfully'});
+    const userToSend = {
+        id: req.user.id,
+        email: req.user.email
+    };
+
+    res.json({
+        message: 'Logged in successfully',
+        user: userToSend
+    });
 });
 
 module.exports = router;

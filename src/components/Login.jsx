@@ -5,7 +5,7 @@ import {useAuth} from "../context/AuthContext.jsx";
 
 function Login({onLoginSuccess}) {
     const navigate = useNavigate();
-    const {login} = useAuth();
+    const { login } = useAuth();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
@@ -16,12 +16,11 @@ function Login({onLoginSuccess}) {
             const response = await fetch('http://localhost:8080/login', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({email, password}),
+                body: JSON.stringify({ email, password }),
             });
             if (response.ok) {
-                const userData = await response.json();
-                localStorage.setItem('user', JSON.stringify(userData));
-                login();
+                const data = await response.json();
+                login(data.user); // Pass the user data to the login function
                 navigate("/");
             } else {
                 setError("Failed to login. Please check your credentials.");
